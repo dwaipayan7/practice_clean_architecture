@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:practice_clean_architecture/features/auth/presentation/pages/login_page.dart';
+import 'package:practice_clean_architecture/cors/theme/app_theme.dart';
 import 'package:practice_clean_architecture/features/auth/presentation/pages/signup_page.dart';
 
 void main() {
@@ -15,10 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Bloc Clean Architecture',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.darkThemeMode,
       home: SignupPage(),
     );
   }
