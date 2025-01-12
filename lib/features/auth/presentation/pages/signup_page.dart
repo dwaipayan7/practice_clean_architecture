@@ -64,7 +64,7 @@ class _SignupPageState extends State<SignupPage> {
               ),
               AuthGradientButton(onTap: () {
                 Navigator.push(context, LoginPage.route());
-              },),
+              }, buttonText: 'Log In',),
               SizedBox(
                 height: 20,
               ),

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:practice_clean_architecture/cors/secrets/app_secrets.dart';
 import 'package:practice_clean_architecture/cors/theme/app_theme.dart';
 import 'package:practice_clean_architecture/features/auth/presentation/pages/login_page.dart';
 import 'package:practice_clean_architecture/features/auth/presentation/pages/signup_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  
+ final supabase = await Supabase.initialize(url: AppSecrets.supabaseURL, anonKey: AppSecrets.supabaseanonKey);
+  
   runApp(const MyApp());
 }
 

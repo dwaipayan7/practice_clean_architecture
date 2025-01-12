@@ -4,7 +4,8 @@ import '../../../../cors/theme/app_pallete.dart';
 
 class AuthGradientButton extends StatelessWidget {
   final VoidCallback onTap;
-  const AuthGradientButton({super.key, required this.onTap});
+  final String buttonText;
+  const AuthGradientButton({super.key, required this.onTap, required this.buttonText});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class AuthGradientButton extends StatelessWidget {
 
         ),
         child: Text(
-          "Sign Up",
+          buttonText,
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w600,
