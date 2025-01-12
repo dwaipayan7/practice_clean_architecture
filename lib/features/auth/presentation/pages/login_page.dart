@@ -45,11 +45,11 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(
             height: 30,
           ),
-          AuthField(hintText: 'Email'),
+          AuthField(hintText: 'Email', controller: emailController,),
           SizedBox(
             height: 15,
           ),
-          AuthField(hintText: 'Password'),
+          AuthField(hintText: 'Password', controller: passwordController,),
           SizedBox(
             height: 20,
           ),
