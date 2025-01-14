@@ -1,13 +1,28 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-
+import 'package:practice_clean_architecture/features/auth/domain/usecase/user_signup.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc() : super(AuthInitial()) {
-    on<AuthEvent>((event, emit) {
-      // TODO: implement event handler
+  final UserSignUp _userSignUp;
+  AuthBloc({
+    required UserSignUp userSignup,
+  })  : _userSignUp = userSignup,
+        super(AuthInitial()) {
+    on<AuthSignUp>((event, emit) async {
+      final res = await _userSignUp(UserSignUpParams(
+        name: event.name,
+        email: event.email,
+        password: event.password,
+      ));
+
+      res.fold(
+        (failure) => emit(AuthFailure(message: failure.message)),
+        (uid) => emit(
+          AuthSuccess(uid: uid),
+        ),
+      );
     });
   }
 }

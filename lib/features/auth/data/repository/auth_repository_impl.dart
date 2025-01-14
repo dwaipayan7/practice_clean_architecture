@@ -1,4 +1,4 @@
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:practice_clean_architecture/cors/error/exception.dart';
 import 'package:practice_clean_architecture/cors/error/failure_dart.dart';
 import 'package:practice_clean_architecture/features/auth/data/datasources/auth_remote_data_source.dart';
