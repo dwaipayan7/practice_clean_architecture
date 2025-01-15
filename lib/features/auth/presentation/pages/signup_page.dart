@@ -68,6 +68,7 @@ class _SignupPageState extends State<SignupPage> {
               AuthField(
                 hintText: 'Password',
                 controller: passwordController,
+                isObscureText: true,
               ),
               SizedBox(
                 height: 20,
