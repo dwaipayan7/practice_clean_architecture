@@ -5,6 +5,7 @@ import 'package:practice_clean_architecture/features/auth/data/datasources/auth_
 import 'package:practice_clean_architecture/features/auth/data/models/user_model.dart';
 import 'package:practice_clean_architecture/features/auth/domain/entities/user.dart';
 import 'package:practice_clean_architecture/features/auth/domain/repository/auth_repository.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
@@ -16,8 +17,11 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    return _getUser(() async =>
-    await remoteDataSource.loginWithEmailPassword(email: email, password: password),
+    return _getUser(
+      () async => await remoteDataSource.loginWithEmailPassword(
+        email: email,
+        password: password,
+      ),
     );
   }
 
@@ -27,16 +31,25 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    return _getUser(() async =>
-    await remoteDataSource.signUpWithEmailPassword(name: name, email: email, password: password),
+    return _getUser(
+      () async => await remoteDataSource.signUpWithEmailPassword(
+        name: name,
+        email: email,
+        password: password,
+      ),
     );
   }
 
-  Future<Either<Failure, User>> _getUser(Future<UserModel> Function() fn) async {
+  Future<Either<Failure, User>> _getUser(
+      Future<UserModel> Function() fn) async {
     try {
       final user = await fn();
       return Either.right(user);
-    } on ServerException catch (e) {
+    }
+    on sb.AuthException catch(e){
+      return Either.left(Failure(e.toString()));
+    }
+    on ServerException catch (e) {
       return Either.left(Failure(e.message));
     }
   }
