@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:practice_clean_architecture/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:practice_clean_architecture/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:practice_clean_architecture/features/auth/domain/repository/auth_repository.dart';
+import 'package:practice_clean_architecture/features/auth/domain/usecase/user_login.dart';
 import 'package:practice_clean_architecture/features/auth/domain/usecase/user_signup.dart';
 import 'package:practice_clean_architecture/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -22,30 +23,37 @@ Future<void> initDependencies() async {
 
 void _initAuth() {
   //data source
-  serviceLocator.registerFactory<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(
-      supabaseClient: serviceLocator(),
-    ),
-  );
+  serviceLocator
+    ..registerFactory<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(
+        supabaseClient: serviceLocator(),
+      ),
+    )
 
-  //repository
-  serviceLocator.registerFactory<AuthRepository>(
-    () => AuthRepositoryImpl(
-      remoteDataSource: serviceLocator(),
-    ),
-  );
+    //repository
+    ..registerFactory<AuthRepository>(
+      () => AuthRepositoryImpl(
+        remoteDataSource: serviceLocator(),
+      ),
+    )
 
-  //usecase
-  serviceLocator.registerFactory(
-    () => UserSignUp(
-      repository: serviceLocator(),
-    ),
-  );
+    //usecase
+    ..registerFactory(
+      () => UserSignUp(
+        repository: serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => UserLogin(
+        authRepository: serviceLocator(),
+      ),
+    )
 
-  //bloc
-  serviceLocator.registerLazySingleton(
-    () => AuthBloc(
-      userSignup: serviceLocator(),
-    ),
-  );
+    //bloc
+    ..registerLazySingleton(
+      () => AuthBloc(
+        userSignup: serviceLocator(),
+        userLogin: serviceLocator(),
+      ),
+    );
 }

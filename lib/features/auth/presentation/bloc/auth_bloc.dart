@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:practice_clean_architecture/features/auth/domain/entities/user.dart';
@@ -16,22 +18,43 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   })  : _userSignUp = userSignup,
         _userLogin = userLogin,
         super(AuthInitial()) {
-    on<AuthSignUp>((event, emit) async {
+    on<AuthSignUp>(_onAuthSignUp);
+    on<AuthLogin>(_onAuthLogin);
+  }
 
-      emit(AuthLoading());
+  FutureOr<void> _onAuthSignUp(
+      AuthSignUp event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
 
-      final res = await _userSignUp(UserSignUpParams(
-        name: event.name,
+    final res = await _userSignUp(UserSignUpParams(
+      name: event.name,
+      email: event.email,
+      password: event.password,
+    ));
+
+    res.fold(
+      (failure) => emit(AuthFailure(message: failure.message)),
+      (user) => emit(
+        AuthSuccess(user: user),
+      ),
+    );
+  }
+
+  FutureOr<void> _onAuthLogin(AuthLogin event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+
+    final res = await _userLogin(
+      UserLoginParams(
         email: event.email,
         password: event.password,
-      ));
+      ),
+    );
 
-      res.fold(
-        (failure) => emit(AuthFailure(message: failure.message)),
-        (user) => emit(
-          AuthSuccess(user: user),
-        ),
-      );
-    });
+    res.fold(
+      (l) => emit(AuthFailure(message: l.message)),
+      (r) => emit(
+        AuthSuccess(user: r),
+      ),
+    );
   }
 }
