@@ -3,14 +3,31 @@ import 'package:practice_clean_architecture/cors/error/exception.dart';
 import 'package:practice_clean_architecture/cors/error/failure_dart.dart';
 import 'package:practice_clean_architecture/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:practice_clean_architecture/features/auth/data/models/user_model.dart';
-import 'package:practice_clean_architecture/features/auth/domain/entities/user.dart';
 import 'package:practice_clean_architecture/features/auth/domain/repository/auth_repository.dart';
+import '../../../../cors/common/entities/user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
 
   AuthRepositoryImpl({required this.remoteDataSource});
+
+
+  @override
+  Future<Either<Failure, User>> currentUser() async{
+     try{
+       final user = await remoteDataSource.getCurrentUserData();
+
+       if(user == null){
+         return Either.left(Failure("User not logged in!"),);
+      }
+
+       return Either.right(user);
+
+     }catch(e){
+       throw Exception(e.toString());
+     }
+  }
 
   @override
   Future<Either<Failure, User>> loginWithEmailPassword({
@@ -53,4 +70,6 @@ class AuthRepositoryImpl implements AuthRepository {
       return Either.left(Failure(e.message));
     }
   }
+
+
 }

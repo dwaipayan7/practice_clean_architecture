@@ -1,8 +1,9 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:practice_clean_architecture/cors/error/failure_dart.dart';
 import 'package:practice_clean_architecture/cors/usecase/usercase.dart';
-import 'package:practice_clean_architecture/features/auth/domain/entities/user.dart';
 import 'package:practice_clean_architecture/features/auth/domain/repository/auth_repository.dart';
+
+import '../../../../cors/common/entities/user.dart';
 
 class UserLogin implements UseCase<User, UserLoginParams> {
   final AuthRepository authRepository;
