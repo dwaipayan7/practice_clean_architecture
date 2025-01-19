@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_clean_architecture/cors/common/app_user/cubits/app_user_cubit.dart';
 import 'package:practice_clean_architecture/cors/theme/app_theme.dart';
 import 'package:practice_clean_architecture/features/auth/presentation/pages/login_page.dart';
+import 'package:practice_clean_architecture/features/blog/presentation/pages/blog_page.dart';
 import 'package:practice_clean_architecture/init_dependencies.dart';
 
 
@@ -52,7 +53,7 @@ class _MyAppState extends State<MyApp> {
         },
         builder: (context, isLoggedIn) {
           if(isLoggedIn){
-            return Scaffold(body: Center(child: Text("Logged In"),),);
+            return BlogPage();
           }else{
             return LoginPage();
 
