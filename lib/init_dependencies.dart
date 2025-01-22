@@ -15,6 +15,7 @@ import 'package:practice_clean_architecture/features/blog/presentation/bloc/blog
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'cors/secrets/app_secrets.dart';
+import 'features/blog/domain/usecases/get_all_blogs.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -96,10 +97,16 @@ void _initBlog() {
         repository: serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => GetAllBlogs(
+        blogRepository: serviceLocator(),
+      ),
+    )
     //Bloc
     ..registerLazySingleton(
       () => BlogBloc(
-        serviceLocator(),
+        uploadBlog: serviceLocator(),
+        getAllBlogs: serviceLocator(),
       ),
     );
 }
