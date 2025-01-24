@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'cors/common/app_user/cubits/app_user_cubit.dart';
 import 'cors/theme/app_theme.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';

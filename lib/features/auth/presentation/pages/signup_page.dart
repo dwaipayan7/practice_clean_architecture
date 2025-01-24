@@ -6,6 +6,7 @@ import 'package:practice_clean_architecture/cors/theme/app_pallete.dart';
 import 'package:practice_clean_architecture/cors/utils/show_snackbar.dart';
 import 'package:practice_clean_architecture/features/auth/presentation/pages/login_page.dart';
 import 'package:practice_clean_architecture/features/auth/presentation/widget/auth_field.dart';
+import '../../../blog/presentation/pages/blog_page.dart';
 import '../bloc/auth_bloc.dart';
 import '../widget/auth_gradient_button.dart';
 
@@ -53,6 +54,12 @@ class _SignupPageState extends State<SignupPage> {
             
             if(state is AuthFailure){
               showSnackBar(context, state.message);
+            }else if (state is AuthSuccess) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                BlogPage.route(),
+                    (route) => false,
+              );
             }
 
             return Form(
